@@ -38,11 +38,27 @@ public class LexerSource : Source {
 
     static int digit(char ch, int radix)
     {
-        try {
-            return Convert.ToInt32(ch.ToString(), radix);
-        } catch {
-            return -1;
+        string alphabet;
+
+        switch(radix) {
+            case 8:
+                alphabet = "012345678";
+                break;
+
+            case 10:
+                alphabet = "0123456789";
+                break;
+
+            case 16:
+                ch = char.ToLower(ch);
+                alphabet = "0123456789abcdef";
+                break;
+
+            default:
+                throw new NotSupportedException();
         }
+
+        return alphabet.IndexOf(ch);
     }
 	private static readonly bool	DEBUG = false;
 
