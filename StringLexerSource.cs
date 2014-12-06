@@ -50,10 +50,16 @@ public class StringLexerSource : LexerSource
 		this(str, false, fileName) {
 	}
 
-    internal override string getName()
+    override internal String getPath()
     {
         return filename;
     }
+
+    override internal String getName()
+    {
+        return getPath();
+    }
+
 
     override public String ToString() {
 		return "string literal";
