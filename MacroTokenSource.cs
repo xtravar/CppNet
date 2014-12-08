@@ -47,6 +47,10 @@ internal class MacroTokenSource : Source {
 
 	/* XXX Called from Preprocessor [ugly]. */
 	internal static void escape(StringBuilder buf, string cs) {
+	    if (cs == null)
+	    {
+	        return;
+	    }
 		for (int i = 0; i < cs.length(); i++) {
 			char	c = cs.charAt(i);
 			switch (c) {

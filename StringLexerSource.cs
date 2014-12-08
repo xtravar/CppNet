@@ -25,17 +25,20 @@ namespace CppNet {
  * This class is used by token pasting, but can be used by user
  * code.
  */
-public class StringLexerSource : LexerSource {
-
+public class StringLexerSource : LexerSource
+{
+    private readonly string filename;
 	/**
 	 * Creates a new Source for lexing the given String.
 	 *
 	 * @param ppvalid true if preprocessor directives are to be
 	 *	honoured within the string.
 	 */
-	public StringLexerSource(String str, bool ppvalid) : 
-		base(new StringReader(str), ppvalid) {
-	}
+    public StringLexerSource(String str, bool ppvalid, string fileName = null) : 
+		base(new StringReader(str), ppvalid)
+    {
+        this.filename = fileName ?? string.Empty; // Always use empty otherwise cpp.token() will fail on NullReferenceException
+    }
 
 	/**
 	 * Creates a new Source for lexing the given String.
@@ -43,11 +46,22 @@ public class StringLexerSource : LexerSource {
 	 * By default, preprocessor directives are not honoured within
 	 * the string.
 	 */
-	public StringLexerSource(String str) :
-		this(str, false) {
+	public StringLexerSource(String str, string fileName = null) :
+		this(str, false, fileName) {
 	}
 
-	override public String ToString() {
+    override internal String getPath()
+    {
+        return filename;
+    }
+
+    override internal String getName()
+    {
+        return getPath();
+    }
+
+
+    override public String ToString() {
 		return "string literal";
 	}
 }
