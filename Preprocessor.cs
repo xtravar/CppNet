@@ -124,6 +124,8 @@ public class Preprocessor : IDisposable {
 		this.warnings = Warning.NONE;
 		this.filesystem = new JavaFileSystem();
 		this.listener = null;
+
+	    EmitExtraLineInfo = true;
 	}
 
 	public Preprocessor(Source initial) :
@@ -137,6 +139,8 @@ public class Preprocessor : IDisposable {
 	public Preprocessor(FileInfo file) :
 		this(new FileLexerSource(file)) {
 	}
+
+    public bool EmitExtraLineInfo { get; set; }
 
 	/**
 	 * Sets the VirtualFileSystem used by this Preprocessor.
@@ -512,7 +516,10 @@ public class Preprocessor : IDisposable {
 			.Append(" \"");
 		/* XXX This call to escape(name) is correct but ugly. */
 		MacroTokenSource.escape(buf, name);
-		buf.Append("\"").Append(extra).Append("\n");
+	    buf.Append("\"");
+        if (EmitExtraLineInfo)
+	        buf.Append(extra);
+        buf.Append("\n");
         return new Token(Token.P_LINE, line, 0, buf.ToString(), null);
 	}
 
