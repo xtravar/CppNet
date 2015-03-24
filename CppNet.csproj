@@ -40,6 +40,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Argument.cs" />
+    <Compile Include="DefaultPreprocessorListener.cs" />
     <Compile Include="Feature.cs" />
     <Compile Include="FileLexerSource.cs" />
     <Compile Include="FixedTokenSource.cs" />
