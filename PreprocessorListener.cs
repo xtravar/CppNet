@@ -18,69 +18,33 @@ using System;
 
 namespace CppNet {
 
-/**
- * A handler for preprocessor events, primarily errors and warnings.
- *
- * If no PreprocessorListener is installed in a Preprocessor, all
- * error and warning events will throw an exception. Installing a
- * listener allows more intelligent handling of these events.
- */
-public class PreprocessorListener {
+    /**
+     * A handler for preprocessor events, primarily errors and warnings.
+     *
+     * If no PreprocessorListener is installed in a Preprocessor, all
+     * error and warning events will throw an exception. Installing a
+     * listener allows more intelligent handling of these events.
+     */
+    public interface PreprocessorListener
+    {
+        /**
+         * Handles a warning.
+         *
+         * The behaviour of this method is defined by the
+         * implementation. It may simply record the error message, or
+         * it may throw an exception.
+         */
+        void handleWarning(Source source, int line, int column, String msg);
 
-	private int	errors;
-	private int	warnings;
+        /**
+         * Handles an error.
+         *
+         * The behaviour of this method is defined by the
+         * implementation. It may simply record the error message, or
+         * it may throw an exception.
+         */
+        void handleError(Source source, int line, int column, String msg);
 
-	public PreprocessorListener() {
-		clear();
-	}
-
-	public void clear() {
-		errors = 0;
-		warnings = 0;
-	}
-
-	public int getErrors() {
-		return errors;
-	}
-
-	public int getWarnings() {
-		return warnings;
-	}
-
-	protected void print(String msg) {
-        System.Console.Error.WriteLine(msg);
-	}
-
-	/**
-	 * Handles a warning.
-	 *
-	 * The behaviour of this method is defined by the
-	 * implementation. It may simply record the error message, or
-	 * it may throw an exception.
-	 */
-	public void handleWarning(Source source, int line, int column,
-					String msg) {
-		warnings++;
-		print(source.getName() + ":" + line + ":" + column +
-				": warning: " + msg); 
-	}
-
-	/**
-	 * Handles an error.
-	 *
-	 * The behaviour of this method is defined by the
-	 * implementation. It may simply record the error message, or
-	 * it may throw an exception.
-	 */
-	public void handleError(Source source, int line, int column,
-					String msg) {
-		errors++;
-		print(source.getName() + ":" + line + ":" + column +
-				": error: " + msg); 
-	}
-
-	public void handleSourceChange(Source source, String ev) {
-	}
-
-}
+        void handleSourceChange(Source source, String ev);
+    }
 }
